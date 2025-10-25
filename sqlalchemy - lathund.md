@@ -3,7 +3,7 @@
 ## Länk till SQLAlchemys dokumentation
 
 Försök att hitta information i denna innan ni använder ChatGPT. Dokumentationen är oftast den säkraste källan till korrekt och uppdaterad information.
-<a href="https://docs.sqlalchemy.org/" target=_blank>Länk till dokumentationen</a>
+<a href="https://docs.sqlalchemy.org/" target="_blank">Länk till dokumentationen</a>
 
 ## Installera nödvändiga paket
 
