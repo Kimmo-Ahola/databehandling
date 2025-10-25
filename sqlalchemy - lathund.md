@@ -50,7 +50,7 @@ Googla och ta reda på dessa frågor:
 
 ```python
 engine = create_engine(DATABASE_URL)
-SessionLocal = (bind=engine)
+SessionLocal = sessionmaker(bind=engine)
 ``` 
 
 
