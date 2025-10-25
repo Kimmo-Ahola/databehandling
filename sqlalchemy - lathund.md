@@ -1,4 +1,9 @@
 # Project Setup - Lathund
+
+## Länk till SQLAlchemys dokumentation
+
+[Länk till dokumentationen](https://docs.sqlalchemy.org/)
+
 ## Installera nödvändiga paket
 
 > [!WARNING]
@@ -52,14 +57,24 @@ import models # add models to __init.py__ in models folder
 
 ## Skapa en första databasmodell
 
-- Vi skapar en python-klass för Driver och ärver från base.py. Vi gör den så minimal som möjligt med endast en primary key.
+- Vi skapar en python-klass för Driver och ärver från base.py. Vi gör den så minimal som möjligt med endast kolumn: vår primärnyckel (PK).
 ```python
 # driver.py
 
 class Driver(Base):
 	id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
 ```
+
+- Lägg till detta i __init__.py
+
+```python
+# __init__.py inside models folder
+from .driver import Driver
+```
+
 ### Övningar
+Googla och ta reda på detta:
+
 1. Behöver vi verkligen ha autoincrement=True?
 1. Måste det vara en Integer på primary key?
 1. Varför behöver vi inte ha unique=True på vår primary key?
@@ -141,8 +156,6 @@ class License(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     issued_at: Mapped[date] = mapped_column(Date) # visa här hur man kan hitta insert_at på dokumentationen
 ```
-
-[Länk till dokumentationen](https://docs.sqlalchemy.org/en/20/orm/declarative_styles.html)
 
 ## Ny migration
 
@@ -292,7 +305,7 @@ with Session.begin() as session:
 #### Övning 4:
 1. Undersök följande kommando med en join:
 ```python
-   stmt = select(License).join(License.driver)
+stmt = select(License).join(License.driver)
 with Session.begin() as session:
     licenses = session.execute(stmt).scalars().all()
     for lic in licenses:
@@ -300,7 +313,7 @@ with Session.begin() as session:
    ```
    2. Testa nu att köra följande kommando utan vår join
 ```python
- stmt = select(License)
+stmt = select(License)
 with Session.begin() as session:
     licenses = session.execute(stmt).scalars().all()
     for lic in licenses:
@@ -330,7 +343,7 @@ Alltså sker det två sökningar till databasen om vi inte specifikt säger join
 1. Skapa funktioner för CRUD (Create, Read, Update, Delete) för din driver
 2. Dessa ska ligga i en ny fil (i en klass). Kom ihåg try except på rätt ställen!
 ```python
-# skelett för en funktion
+# skelett för en hur vi kan lägga till CRUD-funktioner inuti en klass
 
 class Demo():
 
@@ -340,9 +353,27 @@ class Demo():
 		
 		return ...
 		
-	def create_driver(session: Session, **kwargs) -> Driver | None:
+	def create_driver_2(session: Session, **kwargs) -> Driver | None:
 		new_driver = ....
 		session.add(...)
+		
+		return ...
+
+# Samma som ovan, men denna gång skickar vi in sessionen till konstruktorn.
+class AnotherDemo():
+	def __init__(self, session: Session):
+		self.session = session
+
+
+	def create_driver(self, driver: Driver) -> Driver | None:
+		new_driver = ....
+		self.session.add(...)
+		
+		return ...
+		
+	def create_driver_2(self, **kwargs) -> Driver | None:
+		new_driver = ....
+		self.session.add(...)
 		
 		return ...
 
