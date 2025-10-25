@@ -24,23 +24,34 @@ Vi kallar exempelvis filen för db.py och lägger den i en mapp som också heter
 1. Lägg till vår ***Database Connection String***
 
 ```python
+# db.py
 # username och password är vad ni har valt vid installationen av MySQL på datorn.
 # database_name är det namn ni väljer när ni kör CREATE DATABASE i MySQL
 DATABASE_URL = "mysql+pymysql://username:password@localhost:3306/database_name"
 ```
 
-2. Vi använder ***Create engine*** för att skapa konfiguration om hur vi ska koppla upp oss mot database.
+2. Vi använder ***create_engine*** för att skapa konfiguration om hur vi ska koppla upp oss mot database.
 
 ```python
+# db.py
 engine = create_engine(DATABASE_URL, echo=False) # True when debugging
 
 SessionLocal = sessionmaker(autocommit=False, autoflush = True, bind = endgine)
 Session = SessionLocal # Vi skriver över SQLAlchemys Session-klass för att använda vår egna.
 ```
+
 ### Övningar
+Googla och ta reda på dessa frågor:
+
 1. Vad gör echo-parametern?
 1. Vad gör autocommit-parametern? (den ska vara False när ni jobbar)
 1. Vad gör autoflush-parametern?
+1. Ta reda på vad dessa parametrar har för default-värden, dvs vad sätts de till om vi själva bara skriver:
+
+```python
+engine = create_engine(DATABASE_URL)
+SessionLocal = (bind=engine)
+``` 
 
 
 ## Skapa en basklass för modeller
